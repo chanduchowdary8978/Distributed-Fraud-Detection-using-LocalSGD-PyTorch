@@ -186,7 +186,22 @@ Configuration options include:
 - PyYAML
 - PSUtil
 
+
 ---
+
+## Docker
+
+Pull the latest image
+
+```bash
+docker pull chanduchowdary8978/fraud-api:latest
+```
+
+Run
+
+```bash
+docker run -p 8000:8000 chanduchowdary8978/fraud-api:latest
+```
 
 ## Future Work
 
