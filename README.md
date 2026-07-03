@@ -1,6 +1,6 @@
-# Communication-Efficient Distributed Fraud Detection
+# Communication-Efficient Distributed Fraud Detection using LocalSGD
 
-A distributed machine learning system that simulates fraud detection across geographically distributed payment data centers using **LocalSGD**. The project evaluates the trade-off between **communication efficiency** and **model performance** while providing configurable network simulation, experiment automation, monitoring, and model serving.
+A distributed machine learning system that simulates fraud detection across geographically distributed payment data centers using **LocalSGD**. The project evaluates the trade-off between **communication efficiency** and **model performance** by training local models independently and periodically synchronizing them through configurable communication rounds.
 
 ---
 
@@ -8,34 +8,41 @@ A distributed machine learning system that simulates fraud detection across geog
 
 - Centralized and LocalSGD training
 - Multi-data center simulation (5 workers)
-- Configurable synchronization interval (K = 1, 5, 10, 20, 50, 100)
+- Configurable synchronization intervals (K = 1, 5, 10, 20, 50, 100)
 - Network latency and bandwidth simulation
 - Communication cost analysis
 - Automated experiment runner
-- System resource monitoring (CPU, RAM, GPU)
-- FastAPI inference service
-- Docker support
+- System resource monitoring (CPU, RAM and GPU)
+- FastAPI model serving
+- Dockerized deployment
 - YAML-based configuration
-- Automatic report and plot generation
+- Automatic metrics, reports and plot generation
+
+---
+
+## Architecture
+
+The system simulates distributed fraud detection across five geographically distributed payment data centers. Each worker trains a local model independently using LocalSGD while a central coordinator periodically synchronizes model parameters. A configurable network simulation layer measures communication latency, bandwidth utilization, synchronization overhead and communication cost during distributed training.
 
 ---
 
 ## Project Structure
 
 ```text
-Phase8/
-├── api/               # FastAPI model serving
-├── analysis/          # Reports and visualizations
-├── config/            # YAML configurations
-├── experiments/       # Experiment runner
-├── models/            # Fraud detection model
-├── monitoring/        # System monitoring
-├── network/           # Network simulation
-├── training/          # Centralized & LocalSGD training
-├── artifacts/         # Generated outputs
+.
+├── api/                  # FastAPI model serving
+├── analysis/             # Reports and visualizations
+├── config/               # YAML configurations
+├── experiments/          # Experiment runner
+├── models/               # Fraud detection model
+├── monitoring/           # System monitoring
+├── network/              # Network simulation
+├── training/             # Centralized & LocalSGD training
+├── artifacts/            # Generated outputs
 ├── Dockerfile
 ├── docker-compose.yml
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
 ---
@@ -55,7 +62,7 @@ Phase8/
 
 ## Training
 
-### Centralized Training
+### Centralized Baseline
 
 ```bash
 python training/centralized_baseline.py
@@ -67,7 +74,7 @@ python training/centralized_baseline.py
 python training/local_sgd.py
 ```
 
-### Run Complete Experiment Suite
+### Run All Experiments
 
 ```bash
 python experiments/experiment_runner.py
@@ -77,7 +84,9 @@ python experiments/experiment_runner.py
 
 ## Network Simulation
 
-The simulator supports multiple network topologies for evaluating distributed training performance.
+The project supports multiple network topologies for evaluating distributed training performance.
+
+Supported topologies:
 
 - Fully Connected
 - Ring
@@ -85,7 +94,7 @@ The simulator supports multiple network topologies for evaluating distributed tr
 - Tree
 - Custom
 
-Collected metrics include:
+Collected network metrics:
 
 - Communication latency
 - Synchronization time
@@ -99,27 +108,43 @@ Collected metrics include:
 
 Each experiment automatically generates:
 
+### Model Outputs
+
 - Model checkpoints
 - Training metrics
-- Network metrics
+- Validation metrics
+
+### Network Metrics
+
 - Communication logs
+- Synchronization statistics
+- Network performance metrics
+
+### System Monitoring
+
+- CPU utilization
+- RAM utilization
+- GPU utilization
+- Experiment duration
+
+### Reports
+
 - JSON reports
 - CSV metrics
 - Training plots
 - Network visualizations
-- CPU, RAM and GPU utilization statistics
 
 ---
 
 ## REST API
 
-Start the API server
+Start the API server:
 
 ```bash
 uvicorn api.main:app --reload
 ```
 
-Available endpoints
+Available endpoints:
 
 | Method | Endpoint |
 |---------|----------|
@@ -130,7 +155,7 @@ Available endpoints
 | POST | `/predict/batch` |
 | POST | `/model/reload` |
 
-Swagger UI
+Swagger Documentation:
 
 ```
 http://localhost:8000/docs
@@ -140,25 +165,37 @@ http://localhost:8000/docs
 
 ## Docker
 
-Build
+### Build Image
 
 ```bash
 docker build -t fraud-api .
 ```
 
-Run
+### Run Container
 
 ```bash
 docker run -p 8000:8000 fraud-api
+```
+
+### Pull Prebuilt Image
+
+```bash
+docker pull chanduchowdary8978/fraud-api:latest
+```
+
+### Run Prebuilt Image
+
+```bash
+docker run -p 8000:8000 chanduchowdary8978/fraud-api:latest
 ```
 
 ---
 
 ## Configuration
 
-All experiments are configurable through YAML files.
+All experiments are configurable using YAML files.
 
-Configuration options include:
+Supported configuration options include:
 
 - Learning rate
 - Batch size
@@ -173,7 +210,7 @@ Configuration options include:
 
 ## Technology Stack
 
-- Python
+- Python 3.11
 - PyTorch
 - FastAPI
 - Uvicorn
@@ -186,22 +223,7 @@ Configuration options include:
 - PyYAML
 - PSUtil
 
-
 ---
-
-## Docker
-
-Pull the latest image
-
-```bash
-docker pull chanduchowdary8978/fraud-api:latest
-```
-
-Run
-
-```bash
-docker run -p 8000:8000 chanduchowdary8978/fraud-api:latest
-```
 
 ## Future Work
 
@@ -210,6 +232,11 @@ docker run -p 8000:8000 chanduchowdary8978/fraud-api:latest
 - Federated learning support
 - Multi-GPU distributed training
 - Kubernetes deployment
-- Production monitoring
+- Prometheus and Grafana integration
+- Distributed hyperparameter optimization
 
 ---
+
+## License
+
+This project is licensed under the MIT License. See the **LICENSE** file for details.
