@@ -1,0 +1,46 @@
+# Git
+.git
+.github
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Datasets
+data/
+*.csv
+*.parquet
+
+# Generated artifacts
+artifacts/*
+!artifacts/centralized/
+!artifacts/centralized/models/
+!artifacts/centralized/models/best_model.pt
+!artifacts/centralized/centralized_config.json
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+tmp/
+temp/
+
+# Zip files
+*.zip

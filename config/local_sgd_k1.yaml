@@ -1,0 +1,31 @@
+# LocalSGD, K=1: each of the 5 workers trains 1 local epoch(s) between
+# synchronization rounds, for 10 communication round(s)
+# (~1 x 10 = 10 local epochs per worker total).
+#
+# Compute-budget note: K values up to 10 are held at a roughly constant
+# ~10 local-epoch-per-worker training budget (rounds = 10 / K) so accuracy
+# differences reflect the synchronization interval itself, not more total
+# training. K=20/50/100 exceed a single worker's realistic per-round budget,
+# so communication_rounds is floored at 1 -- these three configs necessarily
+# do MORE total local training than the K<=10 group and represent the
+# extreme low-communication regime (a single synchronization event), not a
+# controlled equal-compute comparison. See analysis/report.md's
+# Configuration Summary for the realized (K, rounds) pairs.
+name: local_sgd_k1
+strategy: local_sgd
+seeds: [42, 43, 44]
+params:
+  local_epochs: 1
+  communication_rounds: 10
+  val_split: 0.2
+  batch_size: 1024
+  optimizer_name: adam
+  lr: 0.001
+  weight_decay: 0.0
+  loss_type: bce
+  hidden_dims: [128, 64]
+  dropout_rate: 0.3
+  activation: relu
+  use_batch_norm: true
+  use_dropout: true
+  use_amp: false

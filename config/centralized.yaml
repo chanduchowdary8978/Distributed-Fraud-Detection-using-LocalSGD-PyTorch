@@ -1,0 +1,22 @@
+# Centralized baseline: all five shards merged, single-process training.
+# No synchronization ever occurs (communication_rounds is fixed at 0 by
+# experiments/experiment_runner.py for this strategy), so this is the
+# accuracy upper bound / communication-cost lower bound (0) reference
+# that every LocalSGD configuration below is compared against.
+name: centralized
+strategy: centralized
+seeds: [42, 43, 44]
+params:
+  epochs: 10
+  val_split: 0.2
+  batch_size: 1024
+  optimizer_name: adam
+  lr: 0.001
+  weight_decay: 0.0
+  loss_type: bce
+  hidden_dims: [128, 64]
+  dropout_rate: 0.3
+  activation: relu
+  use_batch_norm: true
+  use_dropout: true
+  use_amp: false

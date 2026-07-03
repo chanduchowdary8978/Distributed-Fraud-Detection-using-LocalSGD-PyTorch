@@ -1,0 +1,36 @@
+# Star topology: a single coordinator data center connects directly to
+# every other worker; workers do not talk to each other. Models a
+# classic parameter-server deployment.
+seed: 42
+simulate_real_time: false
+
+topology:
+  type: star
+  num_workers: 5
+  coordinator_index: 0
+  worker_names: [dc_1, dc_2, dc_3, dc_4, dc_5]
+
+latency:
+  mode: gaussian
+  gaussian_mean_ms: 40.0
+  gaussian_std_ms: 8.0
+  seed: 42
+
+bandwidth:
+  bandwidth_mbps: 120.0
+  serialization_overhead_ms: 4.0
+  deserialization_overhead_ms: 4.0
+
+failure:
+  enabled: false
+  packet_loss_prob: 0.0
+  delayed_sync_prob: 0.0
+  delay_multiplier: 3.0
+  dropped_sync_prob: 0.0
+  disconnected_workers: []
+  disconnect_start_round: null
+  disconnect_end_round: null
+  seed: 42
+
+monitoring:
+  sampling_interval_seconds: 1.0

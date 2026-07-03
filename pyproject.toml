@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-dc-local-sgd"
+version = "0.1.0"
+description = "Communication-efficient distributed fraud detection simulation across a multi-data-center payment infrastructure."
+authors = [
+    { name = "TODO", email = "TODO@example.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "torch",
+    "fastapi",
+    "uvicorn",
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "matplotlib",
+    "pyyaml",
+]

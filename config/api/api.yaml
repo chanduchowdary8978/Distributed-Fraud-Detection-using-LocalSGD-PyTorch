@@ -1,0 +1,41 @@
+# api.yaml
+#
+# Configuration for the Phase 8 Model Serving Layer (api/).
+#
+# Every configurable value referenced by api/main.py, api/model_manager.py,
+# and api/services.py lives here so nothing is hardcoded in code. Paths are
+# resolved relative to the project root (the directory containing this
+# `config/` folder) unless already absolute.
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  # Passed to uvicorn when api/main.py is executed directly
+  # (`python -m api.main`). Has no effect when running
+  # `uvicorn api.main:app --reload`, since --reload forces a single
+  # worker/process; documented here so it's still configurable for
+  # non-reload deployments.
+  workers: 1
+  log_level: "info"
+  reload: false
+
+model:
+  checkpoint_path: "artifacts/centralized/models/best_model.pt"
+  model_config_path: "artifacts/centralized/centralized_config.json"
+
+  # "auto" resolves to CUDA if available, else CPU (training.utils.get_device).
+  device: "auto"
+
+  # Human-readable label for GET /model/info; not used for loading.
+  model_version: "unversioned"
+
+inference:
+  # Rejects POST /predict/batch requests with more instances than this.
+  max_batch_size: 512
+  # Soft timeout (seconds) applied to inference calls.
+  request_timeout_seconds: 30
+
+logging:
+  level: "info"
+  # Structured (JSON) request logs if true, plain text if false.
+  json_logs: true

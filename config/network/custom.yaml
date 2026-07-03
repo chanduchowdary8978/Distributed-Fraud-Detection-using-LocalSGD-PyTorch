@@ -1,0 +1,48 @@
+# Custom topology: an explicit, user-defined adjacency matrix. This
+# example connects dc_1 as a hub to dc_2/dc_3, and dc_4<->dc_5 as an
+# independent pair bridged only through dc_3 -- i.e. an irregular,
+# non-standard shape not covered by the four named topologies. Also
+# demonstrates optional failure simulation (Task 6), enabled here.
+seed: 7
+simulate_real_time: false
+
+topology:
+  type: custom
+  num_workers: 5
+  coordinator_index: 0
+  worker_names: [dc_1, dc_2, dc_3, dc_4, dc_5]
+  custom_adjacency:
+    - [0, 1, 1, 0, 0]
+    - [1, 0, 0, 0, 0]
+    - [1, 0, 0, 1, 0]
+    - [0, 0, 1, 0, 1]
+    - [0, 0, 0, 1, 0]
+
+latency:
+  mode: matrix
+  seed: 7
+  matrix:
+    - [0.0, 30.0, 45.0, 0.0, 0.0]
+    - [30.0, 0.0, 0.0, 0.0, 0.0]
+    - [45.0, 0.0, 0.0, 60.0, 0.0]
+    - [0.0, 0.0, 60.0, 0.0, 25.0]
+    - [0.0, 0.0, 0.0, 25.0, 0.0]
+
+bandwidth:
+  bandwidth_mbps: 60.0
+  serialization_overhead_ms: 6.0
+  deserialization_overhead_ms: 6.0
+
+failure:
+  enabled: true
+  packet_loss_prob: 0.02
+  delayed_sync_prob: 0.05
+  delay_multiplier: 4.0
+  dropped_sync_prob: 0.01
+  disconnected_workers: [4]
+  disconnect_start_round: 3
+  disconnect_end_round: 5
+  seed: 7
+
+monitoring:
+  sampling_interval_seconds: 0.5

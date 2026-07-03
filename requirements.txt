@@ -1,0 +1,9 @@
+torch
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+matplotlib
+pyyaml
+psutil

@@ -1,0 +1,19 @@
+# Sync policy configuration template.
+#
+# This file will control how frequently data centers synchronize their
+# locally trained models with the coordinator, and what the default
+# local training hyperparameters are. Values below are placeholders and
+# should be revisited once training/local_sgd.py is implemented.
+
+# Number of local training steps between synchronization rounds.
+sync_interval: 10
+
+# Placeholder for the inter-data-center latency matrix.
+# Will eventually be populated or referenced from network/latency_matrix.py.
+latency_matrix: null
+
+# Default local training batch size.
+batch_size: 32
+
+# Default local training learning rate.
+learning_rate: 0.001
